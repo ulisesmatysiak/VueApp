@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'http://localhost:5199/api/Publicacion';
+const baseURL = process.env.VUE_APP_API_URL;
 
 export async function insertarPublicacion(nuevaPublicacion) {
   try {

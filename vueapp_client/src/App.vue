@@ -27,7 +27,9 @@ export default {
   methods: {
     async fetchPublicaciones() {
       try {
-        const response = await axios.get('http://localhost:5199/api/Publicacion');
+        var asd = process.env.VUE_APP_API_URL;
+        console.log(asd);
+        const response = await axios.get(process.env.VUE_APP_API_URL);
         this.publicaciones = response.data.publicaciones;
       } catch (error) {
         console.error('Error al obtener las publicaciones:', error);
