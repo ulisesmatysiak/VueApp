@@ -17,11 +17,11 @@ namespace VueApp_API.Controllers
         }
 
         [HttpGet]
-        public ActionResult Listar_Publicacion()
+        public async Task<IActionResult> Listar_Publicacion()
         {
             try
             {
-                var publicaciones = _context.Publicacions.ToList();
+                var publicaciones = await _context.Publicacions.ToListAsync();
                 return Ok(new { mensaje = "Publicaciones: ", publicaciones });
             }
             catch (Exception ex)
@@ -32,24 +32,24 @@ namespace VueApp_API.Controllers
 
 
         [HttpPost]
-        public ActionResult Insertar_Publicacion([FromBody] Publicacion publicacion)
+        public async Task<IActionResult> Insertar_Publicacion([FromBody] Publicacion publicacion)
         {
             try
             {
                 _context.Publicacions.Add(publicacion);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 return Ok(new { mensaje = $"Nuevo registro con id: {publicacion.IdPublicacion} insertado correctamente" });
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status200OK, new { mensaje = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { mensaje = ex.Message });
             }
         }
 
 
         [HttpPut("{id}")]
-        public ActionResult Editar_Publicacion(int id, [FromBody] Publicacion publicacion)
+        public async Task<IActionResult> Editar_Publicacion(int id, [FromBody] Publicacion publicacion)
         {
             Publicacion edit = _context.Publicacions.Find(id);
             if (edit == null)
@@ -65,17 +65,17 @@ namespace VueApp_API.Controllers
                 edit.Antiguedad = publicacion.Antiguedad;
                 edit.CoordenadasUbicacion = publicacion.CoordenadasUbicacion;
                 edit.Imagenes = publicacion.Imagenes;
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return Ok(new { mensaje = $"Registro con id: {edit.IdPublicacion} editado correctamente" });
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status200OK, new { mensaje = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { mensaje = ex.Message });
             }
         }
 
         [HttpDelete("{id}")]
-        public ActionResult Eliminar_Publicacion(int id)
+        public async Task<IActionResult> Eliminar_Publicacion(int id)
         {
             Publicacion publicacion = _context.Publicacions.Find(id);
             if (publicacion == null)
@@ -84,12 +84,12 @@ namespace VueApp_API.Controllers
             try
             {
                 _context.Publicacions.Remove(publicacion);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return Ok(new { mensaje = $"Registro con id: {publicacion.IdPublicacion} eliminado correctamente" });
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status200OK, new { mensaje = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { mensaje = ex.Message });
             }
         }
     }
