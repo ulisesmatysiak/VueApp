@@ -207,7 +207,7 @@ export default {
         const response = await insertarPublicacion(this.nuevaPublicacion);
         console.log("Nueva publicación agregada:", response);
         this.$emit("nuevaPublicacionAgregada", response);
-        this.nuevaPublicacion = {}; // Limpiar el formulario después de agregar
+        this.nuevaPublicacion = {};
       } catch (error) {
         console.error("Error al agregar la publicación:", error);
       }
@@ -224,7 +224,6 @@ export default {
           this.publicacionEditada
         );
         console.log("Publicación editada:", response);
-        // Actualizar la lista de publicaciones después de editar
         this.$emit("publicacionEditada", response);
         this.publicacionEditada = {};
         this.editando = false;
@@ -233,7 +232,6 @@ export default {
       }
     },
     async cancelarEdicion() {
-      // Cancelar la edición
       this.publicacionEditada = {};
       this.editando = false;
     },
@@ -242,7 +240,6 @@ export default {
       try {
         const response = await eliminarPublicacion(idPublicacion);
         console.log("Publicación eliminada:", response);
-        // Actualizar la lista de publicaciones después de eliminar
         this.$emit("publicacionEliminada", idPublicacion);
       } catch (error) {
         console.error("Error al eliminar la publicación:", error);
